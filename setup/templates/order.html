@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Typeform 💌 Lob - Order Status</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://www.gstatic.com/firebasejs/5.8.6/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.8.6/firebase-firestore.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.8/dist/vue.js"></script>
+    <script>
+      firebase.initializeApp({
+        apiKey: '{{FIREBASE_API}}',
+        databaseURL: 'https://{{FIREBASE}}.firebaseio.com',
+        projectId: '{{FIREBASE}}'
+      });
+    </script>
+    <style media="screen">
+      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
+      #order { background: white; max-width: 720px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
+      #order h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
+      #order h2 { color: #039be5; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
+      #order h3 { font-size: 16px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
+      #order p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
+      #order a.primary { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
+      #order a.secondary { display: block; text-align: center; background: white; text-transform: uppercase; text-decoration: none; color: #039be5; padding: 16px; margin-top: 16px; }
+      img { width: 100% }
+    </style>
+  </head>
+  <body>
+    <div id="order">
+      <h2>Welcome {{ status.name || status.email }}</h2>
+      <h1>{{ message }}</h1>
+      <h3>{{ status.message }}</h3>
+      <div class="list-group">
+        <div v-for="item in status.sent" class="list-group-item list-group-item-action flex-column align-items-start">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{ item.id }}</h5>
+            <small>Expected Delivery On {{ item.expected_delivery_date }}</small>
+          </div>
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-sm-6">
+                <img :src="item.thumbnails[0].large" alt="Preview">
+              </div>
+              <div class="col-12 col-sm-6">
+                  <img :src="item.thumbnails[1].large" alt="Back Preview">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const vm = new Vue({
+        el: '#order',
+        created(){
+          const uri = window.location.search.substring(1); 
+          const params = new URLSearchParams(uri);
+          const orderId = params.get('id');
+          if (!orderId) {
+            window.location.replace('https://{{FIREBASE}}.firebaseapp.com');
+          } else {
+            const statusRef = firebase.firestore().collection('status').doc(orderId);
+            statusRef.get().then((snapshot) => {
+              if (snapshot.exists) {
+                const status = snapshot.data();
+                if (!status.sent || !Array.isArray(status.sent)) {
+                  status['sent'] = [];
+                }
+                this.status = status;
+
+                if (this.status.completed) {
+                  this.message = 'Your order is completed';
+                } else if (this.status.error) {
+                  this.message = 'There was an error trying to complete your order';
+                } else {
+                  this.message = 'We\'re still working on your order';
+                }
+              } else {
+                window.location.replace('https://{{FIREBASE}}.firebaseapp.com');
+              }
+            }).catch(() => window.location.replace('https://{{FIREBASE}}.firebaseapp.com'));
+          }
+        },
+        data: {
+          message: '',
+          status: {}
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -28,6 +28,14 @@
                 "show_button": true,
                 "button_text": "Continue",
                 "fields": [{
+                        "title": "What's your email address?",
+                        "ref": "sender-email",
+                        "validations": {
+                            "required": true
+                        },
+                        "type": "email"
+                    },
+                    {
                         "title": "Here's a simple one... What's your name?",
                         "ref": "sender-name",
                         "validations": {

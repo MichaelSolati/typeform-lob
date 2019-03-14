@@ -2,6 +2,7 @@ export interface IOrder {
   timestamp: Date;
   token: string;
   sender: {
+    email: string;
     name: string;
     address: string;
     city: string;
@@ -17,12 +18,6 @@ export interface IOrder {
   }
   message: string;
   image: string;
-}
-
-export interface IWebhook {
-  event_id: string;
-  event_type: string;
-  form_response: IResponse;
 }
 
 export interface IResponse {
@@ -52,4 +47,20 @@ export interface IResponse {
       ref: string;
     }
   }[];
+}
+
+export interface IStatus {
+  lastUpdated: Date;
+  completed: boolean;
+  error: boolean;
+  message: string;
+  email: string;
+  name: string;
+  sent?: any;
+}
+
+export interface IWebhook {
+  event_id: string;
+  event_type: string;
+  form_response: IResponse;
 }

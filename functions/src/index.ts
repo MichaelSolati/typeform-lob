@@ -7,5 +7,8 @@ admin.initializeApp();
 import { webhook } from './webhook';
 
 const app = express();
-app.post('/webook', webhook);
+app.post('/webhook', webhook);
 export const api = functions.https.onRequest(app);
+
+export * from './orders';
+export * from './status';

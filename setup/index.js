@@ -13,11 +13,11 @@ const start = async () => {
   const READY_CONFIGURED = (await prompts({
     type: 'confirm',
     name: 'value',
-    message: 'Before we get started, do you have a Firebase project with Cloud Functions and Hosting enabled?'
+    message: 'Before we get started, do you have a Firebase project with Cloud Functions, Hosting, and Cloud Firestore enabled?'
   })).value;
   
   if (!READY_CONFIGURED) {
-    return console.error('We can\'t continue until you set up a Firebase project with Cloud Functions and Hosting enabled!')
+    return console.error('We can\'t continue until you set up a Firebase project with Cloud Functions, Hosting, and Cloud Firestore enabled!')
   }
 
   const READY_INSTALLED = (await prompts({
@@ -40,11 +40,34 @@ const start = async () => {
   if (!FIREBASE) {
     return;
   }
+
+  const FIREBASE_API = (await prompts({
+    type: 'text',
+    name: 'value',
+    message: 'What is your Firebase API Key? (You can get this from the web config details)',
+    validate: value => value.length < 10 ? 'I think your API Key should be longer than that' : true
+  })).value;
+
+  if (!FIREBASE_API) {
+    return;
+  }
+
+  const TYPEFORM = (await prompts({
+    type: 'text',
+    name: 'value',
+    message: 'What is your Personal Token from Typeform? (We will need read/write access to your forms and webhooks) \n' +
+    'You can create one here => https://admin.typeform.com/account#/section/tokens \n',
+    validate: value => value.length < 4 ? 'I think your Personal Token should be longer than that' : true
+  })).value;
+
+  if (!TYPEFORM) {
+    return;
+  }
   
   const LOB = (await prompts({
-    type: 'password',
+    type: 'text',
     name: 'value',
-    message: 'We need your Lob Secret API Key \n' +
+    message: 'What is your Lob Secret API Key? \n' +
     'For the sake of testing we advise using your Test Environment \n' +
     'You can get your LOB key from => https://dashboard.lob.com/#/settings/keys \n',
     validate: value => value.length < 10 ? 'I think your API Key should be longer than that' : true
@@ -54,18 +77,41 @@ const start = async () => {
     return;
   }
 
-  const TYPEFORM = (await prompts({
-    type: 'password',
+  const MAILGUN = (await prompts({
+    type: 'text',
     name: 'value',
-    message: 'We need a Personal Token from Typeform with read/write access to your forms and webhooks \n' +
-    'You can create one here => https://admin.typeform.com/account#/section/tokens \n',
-    validate: value => value.length < 4 ? 'I think your Personal Token should be longer than that' : true
+    message: 'What is your Mailgun Private API Key? (This is used to send email updates on orders) \n' +
+    'You can get yours here => https://app.mailgun.com/app/account/security/api_keys \n',
+    validate: value => value.length < 4 ? 'I think your API Key should be longer than that' : true
   })).value;
 
-  if (!TYPEFORM) {
+  if (!MAILGUN) {
     return;
   }
-  
+
+  const MAILGUN_URL = (await prompts({
+    type: 'text',
+    name: 'value',
+    message: 'What is the Domain for your Mailgun messages? \n' +
+    'You can get yours here => https://app.mailgun.com/app/messages/domains \n',
+    validate: value => value.length < 4 ? 'I think your domain should be longer than that' : true
+  })).value;
+
+  if (!MAILGUN_URL) {
+    return;
+  }
+
+  const FROM_EMAIL = (await prompts({
+    type: 'text',
+    name: 'value',
+    message: 'What email address should the confirmation emails come from?',
+    validate: value => value.length < 4 ? 'I think your return email should be longer than that' : true
+  })).value;
+
+  if (!FROM_EMAIL) {
+    return;
+  }
+
   console.log('Attempting to create Typeform form');
   const [typeformError, typeformSuccess] = await to(requestPromise({
     method: 'POST',
@@ -86,7 +132,7 @@ const start = async () => {
   const [webhookCreateError] = await to(createClient({ token: TYPEFORM }).webhooks.create({
     uid: typeformSuccess.id,
     tag: WEBHOOK_TAG,
-    url: 'https://us-central1-' + FIREBASE + '.cloudfunctions.net/api/webook',
+    url: 'https://us-central1-' + FIREBASE + '.cloudfunctions.net/api/webhook',
     enable: true
   }));
 
@@ -103,8 +149,14 @@ const start = async () => {
     .replace(/{{TYPEFORM_URL}}/g, typeformSuccess._links.display);
   fs.writeFileSync(join(__dirname, '../', 'public', 'index.html'), indexHTML, { encoding: 'utf8' });
 
-  console.log('Attempting to set your Lob Key as a Firebase Cloud Function Environment Key');
-  const [functionsConfigError] = await to(processPromise('npx firebase-tools functions:config:set keys.lob="' + LOB + '"'));
+  console.log('Creating order page to view orders');
+  const orderHTML = fs.readFileSync(join(__dirname, 'templates', 'order.html'), { encoding: 'utf8' })
+    .replace(/{{FIREBASE}}/g, FIREBASE)
+    .replace(/{{FIREBASE_API}}/g, FIREBASE_API);
+  fs.writeFileSync(join(__dirname, '../', 'public', 'order.html'), orderHTML, { encoding: 'utf8' });
+
+  console.log('Attempting to set Firebase Cloud Function Environment Keys');
+  const [functionsConfigError] = await to(processPromise(`npx firebase-tools functions:config:set keys.lob="${LOB}" keys.projectid="${FIREBASE}" keys.mailgun="${MAILGUN}" keys.mailgunurl="${MAILGUN_URL}" keys.from="${FROM_EMAIL}"`));
   if (functionsConfigError) {
     return console.error('ERROR - We couldn\'t create a set your Lob Key as a Firebase Cloud Function Environment Key, try again later');
   }

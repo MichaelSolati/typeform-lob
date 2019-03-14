@@ -1,10 +1,15 @@
-import { IOrder, IResponse } from './definitions';
+import * as express from 'express';
+import * as admin from 'firebase-admin';
 
-export const parseOrder = (response: IResponse): IOrder => {
+import { IOrder, IWebhook } from '../definitions';
+
+export const webhook = async (request: express.Request, response: express.Response) => {
+  const submission: IWebhook = request.body;
+  // This is our initial order, we will fill it out as we continue...
   // @ts-ignore
   const order: IOrder = {
-    timestamp: new Date(response.submitted_at),
-    token: response.token,
+    timestamp: new Date(submission.form_response.submitted_at),
+    token: submission.form_response.token,
     // @ts-ignore
     sender: {},
     // @ts-ignore
@@ -12,9 +17,12 @@ export const parseOrder = (response: IResponse): IOrder => {
     image: 'https://raw.githubusercontent.com/MichaelSolati/typeform-lob/master/setup/assets/typeform.jpg'
   };
 
-  response.answers.forEach((answer: any) => {
+  // Here we parse out details from the form submission
+  submission.form_response.answers.forEach((answer: any) => {
     const ref = answer['field']['ref'];
     switch (ref) {
+      case 'sender-email':
+        order['sender']['email'] = answer.email;
       case 'sender-name':
         order['sender']['name'] = answer.text;
         break;
@@ -55,6 +63,17 @@ export const parseOrder = (response: IResponse): IOrder => {
         break;
     }
   });
-
-  return order;
+  
+  // We will now save the order into a collection for our reference
+  return admin.firestore().collection('orders').doc(order.token).set(order)
+    // We also will create a status document to keep a sender up to date on their order
+    .then(() => admin.firestore().collection('status').doc(order.token).set({
+      lastUpdated: new Date(),
+      completed: false,
+      error: false,
+      message: 'Order to be sent to printer',
+      email: order.sender.email,
+      name: order.sender.name
+    }))
+    .then(() => response.status(200).send({ success: true }));
 }
