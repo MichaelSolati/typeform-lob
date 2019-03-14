@@ -1,0 +1,30 @@
+{
+  "name": "typeform-lob",
+  "version": "0.0.0",
+  "description": "A simple application that uses Typeform to print postcards with Lob",
+  "scripts": {
+    "start": "node setup/index.js",
+    "setup": "node setup/index.js",
+    "postinstall": "npm --prefix functions install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MichaelSolati/typeform-lob.git"
+  },
+  "keywords": [
+    "typeform",
+    "lob"
+  ],
+  "author": "Michael Solati mkslt04@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MichaelSolati/typeform-lob/issues"
+  },
+  "homepage": "https://github.com/MichaelSolati/typeform-lob#readme",
+  "devDependencies": {
+    "@typeform/api-client": "^1.3.0",
+    "firebase-tools": "^6.5.0",
+    "prompts": "^2.0.3",
+    "request": "^2.88.0"
+  }
+}

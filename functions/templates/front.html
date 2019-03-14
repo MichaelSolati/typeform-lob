@@ -1,0 +1,39 @@
+
+<html>
+<head>
+  <style>
+    body {
+      width: 6.25in;
+      height: 4.25in;
+      margin: 0;
+      padding: 0;
+      background-color: white;
+    }
+    
+    #safe-area {
+      position: absolute;
+      width: 5.875in;
+      height: 3.875in;
+      left: 0.1875in;
+      top: 0.1875in;
+      background-color: black;
+    }
+
+    #background {
+      height: 3.875in;
+      background: url({{image}}) no-repeat center center;
+      -webkit-background-size: contain;
+      -moz-background-size: contain;
+      -o-background-size: contain;
+      background-size: contain;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="safe-area">
+    <div id="background"></div>
+  </div>
+</body>
+
+</html>

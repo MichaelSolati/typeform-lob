@@ -1,0 +1,456 @@
+{
+    "title": "Typeform <3 Lob",
+    "theme": {
+        "href": "https://api.typeform.com/themes/6lPNE6"
+    },
+    "settings": {
+        "is_public": true,
+        "language": "en",
+        "progress_bar": "proportion",
+        "show_progress_bar": true,
+        "show_typeform_branding": true,
+        "meta": {
+            "allow_indexing": false
+        }
+    },
+    "thankyou_screens": [{
+        "ref": "default_tys",
+        "title": "Done! Your information was sent perfectly.",
+        "properties": {
+            "show_button": false,
+            "share_icons": false
+        }
+    }],
+    "fields": [{
+            "title": "We have a few questions about you before we're ready to mail your postcard",
+            "ref": "sender",
+            "properties": {
+                "show_button": true,
+                "button_text": "Continue",
+                "fields": [{
+                        "title": "Here's a simple one... What's your name?",
+                        "ref": "sender-name",
+                        "validations": {
+                            "required": true
+                        },
+                        "type": "short_text"
+                    },
+                    {
+                        "title": "Cool, and {{field:sender-name}} what's your street address?",
+                        "ref": "sender-address",
+                        "validations": {
+                            "required": true
+                        },
+                        "type": "short_text"
+                    },
+                    {
+                        "title": "And that's in the city of...",
+                        "ref": "sender-city",
+                        "validations": {
+                            "required": true
+                        },
+                        "type": "short_text"
+                    },
+                    {
+                        "title": "And that's in the state of?",
+                        "ref": "sender-state",
+                        "properties": {
+                            "alphabetical_order": false,
+                            "choices": [{
+                                    "label": "AL"
+                                },
+                                {
+                                    "label": "AK"
+                                },
+                                {
+                                    "label": "AZ"
+                                },
+                                {
+                                    "label": "AR"
+                                },
+                                {
+                                    "label": "CA"
+                                },
+                                {
+                                    "label": "CO"
+                                },
+                                {
+                                    "label": "CT"
+                                },
+                                {
+                                    "label": "DE"
+                                },
+                                {
+                                    "label": "DC"
+                                },
+                                {
+                                    "label": "FL"
+                                },
+                                {
+                                    "label": "GA"
+                                },
+                                {
+                                    "label": "HI"
+                                },
+                                {
+                                    "label": "ID"
+                                },
+                                {
+                                    "label": "IL"
+                                },
+                                {
+                                    "label": "IN"
+                                },
+                                {
+                                    "label": "IA"
+                                },
+                                {
+                                    "label": "KS"
+                                },
+                                {
+                                    "label": "KY"
+                                },
+                                {
+                                    "label": "LA"
+                                },
+                                {
+                                    "label": "ME"
+                                },
+                                {
+                                    "label": "MD"
+                                },
+                                {
+                                    "label": "MA"
+                                },
+                                {
+                                    "label": "MI"
+                                },
+                                {
+                                    "label": "MN"
+                                },
+                                {
+                                    "label": "MS"
+                                },
+                                {
+                                    "label": "MO"
+                                },
+                                {
+                                    "label": "MT"
+                                },
+                                {
+                                    "label": "NE"
+                                },
+                                {
+                                    "label": "NV"
+                                },
+                                {
+                                    "label": "NH"
+                                },
+                                {
+                                    "label": "NJ"
+                                },
+                                {
+                                    "label": "NM"
+                                },
+                                {
+                                    "label": "NY"
+                                },
+                                {
+                                    "label": "NC"
+                                },
+                                {
+                                    "label": "ND"
+                                },
+                                {
+                                    "label": "OH"
+                                },
+                                {
+                                    "label": "OK"
+                                },
+                                {
+                                    "label": "OR"
+                                },
+                                {
+                                    "label": "PA"
+                                },
+                                {
+                                    "label": "RI"
+                                },
+                                {
+                                    "label": "SC"
+                                },
+                                {
+                                    "label": "SD"
+                                },
+                                {
+                                    "label": "TN"
+                                },
+                                {
+                                    "label": "TX"
+                                },
+                                {
+                                    "label": "UT"
+                                },
+                                {
+                                    "label": "VT"
+                                },
+                                {
+                                    "label": "VA"
+                                },
+                                {
+                                    "label": "WA"
+                                },
+                                {
+                                    "label": "WV"
+                                },
+                                {
+                                    "label": "WI"
+                                },
+                                {
+                                    "label": "WY"
+                                }
+                            ]
+                        },
+                        "validations": {
+                            "required": true
+                        },
+                        "type": "dropdown"
+                    },
+                    {
+                        "title": "Aaaand we just need the zip code of that",
+                        "ref": "sender-zip",
+                        "validations": {
+                            "required": true,
+                            "max_length": 5
+                        },
+                        "type": "short_text"
+                    }
+                ]
+            },
+            "type": "group"
+        },
+        {
+            "title": "So now we just need to figure out where we're sending this to",
+            "ref": "recipient",
+            "properties": {
+                "show_button": true,
+                "button_text": "Continue",
+                "fields": [{
+                        "title": "So who's getting the postcard?",
+                        "ref": "recipient-name",
+                        "validations": {
+                            "required": true
+                        },
+                        "type": "short_text"
+                    },
+                    {
+                        "title": "Fascinating, I'm sure {{field:recipient-name}} will love it. But real quick, what's their street address?",
+                        "ref": "recipient-address",
+                        "validations": {
+                            "required": true
+                        },
+                        "type": "short_text"
+                    },
+                    {
+                        "title": "Which is in the city of?",
+                        "ref": "recipient-city",
+                        "validations": {
+                            "required": true
+                        },
+                        "type": "short_text"
+                    },
+                    {
+                        "title": "And {{field:recipient-city}} is in the great state of?",
+                        "ref": "recipient-state",
+                        "properties": {
+                            "alphabetical_order": false,
+                            "choices": [{
+                                    "label": "AL"
+                                },
+                                {
+                                    "label": "AK"
+                                },
+                                {
+                                    "label": "AZ"
+                                },
+                                {
+                                    "label": "AR"
+                                },
+                                {
+                                    "label": "CA"
+                                },
+                                {
+                                    "label": "CO"
+                                },
+                                {
+                                    "label": "CT"
+                                },
+                                {
+                                    "label": "DE"
+                                },
+                                {
+                                    "label": "DC"
+                                },
+                                {
+                                    "label": "FL"
+                                },
+                                {
+                                    "label": "GA"
+                                },
+                                {
+                                    "label": "HI"
+                                },
+                                {
+                                    "label": "ID"
+                                },
+                                {
+                                    "label": "IL"
+                                },
+                                {
+                                    "label": "IN"
+                                },
+                                {
+                                    "label": "IA"
+                                },
+                                {
+                                    "label": "KS"
+                                },
+                                {
+                                    "label": "KY"
+                                },
+                                {
+                                    "label": "LA"
+                                },
+                                {
+                                    "label": "ME"
+                                },
+                                {
+                                    "label": "MD"
+                                },
+                                {
+                                    "label": "MA"
+                                },
+                                {
+                                    "label": "MI"
+                                },
+                                {
+                                    "label": "MN"
+                                },
+                                {
+                                    "label": "MS"
+                                },
+                                {
+                                    "label": "MO"
+                                },
+                                {
+                                    "label": "MT"
+                                },
+                                {
+                                    "label": "NE"
+                                },
+                                {
+                                    "label": "NV"
+                                },
+                                {
+                                    "label": "NH"
+                                },
+                                {
+                                    "label": "NJ"
+                                },
+                                {
+                                    "label": "NM"
+                                },
+                                {
+                                    "label": "NY"
+                                },
+                                {
+                                    "label": "NC"
+                                },
+                                {
+                                    "label": "ND"
+                                },
+                                {
+                                    "label": "OH"
+                                },
+                                {
+                                    "label": "OK"
+                                },
+                                {
+                                    "label": "OR"
+                                },
+                                {
+                                    "label": "PA"
+                                },
+                                {
+                                    "label": "RI"
+                                },
+                                {
+                                    "label": "SC"
+                                },
+                                {
+                                    "label": "SD"
+                                },
+                                {
+                                    "label": "TN"
+                                },
+                                {
+                                    "label": "TX"
+                                },
+                                {
+                                    "label": "UT"
+                                },
+                                {
+                                    "label": "VT"
+                                },
+                                {
+                                    "label": "VA"
+                                },
+                                {
+                                    "label": "WA"
+                                },
+                                {
+                                    "label": "WV"
+                                },
+                                {
+                                    "label": "WI"
+                                },
+                                {
+                                    "label": "WY"
+                                }
+                            ]
+                        },
+                        "validations": {
+                            "required": true
+                        },
+                        "type": "dropdown"
+                    },
+                    {
+                        "title": "Finally we just need to know what the zip code is",
+                        "ref": "recipient-zip",
+                        "validations": {
+                            "required": true
+                        },
+                        "type": "short_text"
+                    }
+                ]
+            },
+            "type": "group"
+        },
+        {
+            "title": "We're so close to being done, but what people love more than getting a blank post card is one with a message! What do you want to say?",
+            "ref": "message-text",
+            "validations": {
+                "required": true
+            },
+            "type": "long_text"
+        },
+        {
+            "title": "So this it totally not required, but if you want we can put an image on the back of the postcard. Just post a URL below, otherwise they'll get a Typeform logo.",
+            "ref": "message-image",
+            "validations": {
+                "required": false
+            },
+            "type": "short_text"
+        }
+    ]
+}

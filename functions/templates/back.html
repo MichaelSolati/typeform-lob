@@ -1,0 +1,52 @@
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <style>
+    *,
+    *:before,
+    *:after {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      font-family: 'Roboto';
+    }
+    
+    body {
+      width: 6.25in;
+      height: 4.25in;
+      margin: 0;
+      padding: 0;
+    }
+    
+    #safe-area {
+      position: absolute;
+      width: 5.875in;
+      height: 3.875in;
+      left: 0.1875in;
+      top: 0.1875in;
+    }
+    
+    #title {
+      font-size: 42px;
+      background: black;
+      color: white;
+      text-align: center;
+      height: .75in;
+    }
+    #message {
+      padding: 4px;
+      text-align: center;
+      height: auto;
+      width: 2.3in;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="safe-area">
+    <div id="title">Typeform 💌 Lob</div>
+    <div id="message">{{message}}</div>
+  </div>
+</body>
+
+</html>
