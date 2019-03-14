@@ -43,7 +43,7 @@ export const parseOrder = (response: IResponse): IOrder => {
         order['recipient']['state'] = answer.text || answer.choice.label;
         break;
       case 'recipient-zip':
-        order['sender']['zip'] = answer.text;
+        order['recipient']['zip'] = answer.text;
         break;
       case 'message-text':
         order['message'] = answer.text;
