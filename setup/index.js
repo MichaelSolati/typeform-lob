@@ -158,7 +158,7 @@ const start = async () => {
   console.log('Attempting to set Firebase Cloud Function Environment Keys');
   const [functionsConfigError] = await to(processPromise(`npx firebase-tools functions:config:set keys.lob="${LOB}" keys.projectid="${FIREBASE}" keys.mailgun="${MAILGUN}" keys.mailgunurl="${MAILGUN_URL}" keys.from="${FROM_EMAIL}"`));
   if (functionsConfigError) {
-    return console.error('ERROR - We couldn\'t create a set your Lob Key as a Firebase Cloud Function Environment Key, try again later');
+    return console.error('ERROR - We couldn\'t set your Firebase Cloud Function Environment Key, try again later');
   }
 
   console.log('Attempting to deploy your application to Firebase');

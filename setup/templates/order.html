@@ -34,18 +34,18 @@
       <h1>{{ message }}</h1>
       <h3>{{ status.message }}</h3>
       <div class="list-group">
-        <div v-for="item in status.sent" class="list-group-item list-group-item-action flex-column align-items-start">
+        <div v-if="status.sent" class="list-group-item list-group-item-action flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">{{ item.id }}</h5>
-            <small>Expected Delivery On {{ item.expected_delivery_date }}</small>
+            <h5 class="mb-1">{{ status.sent.id }}</h5>
+            <small>Expected Delivery On {{ status.sent.expected_delivery_date }}</small>
           </div>
           <div class="container">
             <div class="row">
               <div class="col-12 col-sm-6">
-                <img :src="item.thumbnails[0].large" alt="Preview">
+                <img :src="status.sent.thumbnails[0].large" alt="Preview">
               </div>
               <div class="col-12 col-sm-6">
-                  <img :src="item.thumbnails[1].large" alt="Back Preview">
+                  <img :src="status.sent.thumbnails[1].large" alt="Back Preview">
               </div>
             </div>
           </div>
@@ -65,11 +65,7 @@
             const statusRef = firebase.firestore().collection('status').doc(orderId);
             statusRef.get().then((snapshot) => {
               if (snapshot.exists) {
-                const status = snapshot.data();
-                if (!status.sent || !Array.isArray(status.sent)) {
-                  status['sent'] = [];
-                }
-                this.status = status;
+                this.status = snapshot.data();
 
                 if (this.status.completed) {
                   this.message = 'Your order is completed';
