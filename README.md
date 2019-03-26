@@ -2,13 +2,13 @@
 
 ## I Made an Automated MaaS Business, and So Can You!
 
-For the past 2 years, I've been joking with my friends and former coworkers about building a business around a simple MaaS idea. For the past 6 months, I've been telling conference attendees that I was really working on a MaaS product, hoping it would force me to follow through. It's been a long time coming, but I finally finished it, and it works!
+For the past 2 years, I've been joking with my friends and former coworkers about building a business around a simple idea: MaaS! For the past 6 months, I've been telling conference attendees that I was really, seriously really working on a MaaS product, hoping it would force me to follow through. It's been a long time coming, but I finally finished it, and it works!
 
-Oh---what does MaaS stand for? It means Memes as a Service! You really know that you live in the 21st century when memes can be run as a service.
+Oh - what does MaaS stand for? It means Memes as a Service! You really know that you live in the 21st century when getting a meme is as easy as buying groceries.
 
-My project is called [Memeogram](https://memeogram.com), and you can use it RIGHT NOW! All you need to do is pick a friend, decide how many memes you want to send to your friend, and select how "dank" you want the memes to be. In about 2 weeks, your friend will receive the memes via mail.
+My project is called Memeogram, and you can use it [RIGHT NOW](https://memeogram.com)! All you need to do is pick a friend, decide how many memes you want to send to them, and select how "dank" you want the memes to be. In about 2 weeks, they will receive the memes via mail.
 
-Yes, **mail**. Postcards actually: the exact way you would least expect a meme to arrive.
+Yes, I said via **mail**. Postcards, actually: the very way you would not expect a meme to arrive to you.
 
 Here's how [Memeogram](https://memeogram.com) works under the hood: a sender fills out a [Typeform](https://www.typeform.com), where we collect all of the information needed to send the memes by mail. When the sender clicks Submit, a [Typeform webhook](https://www.typeform.com/help/webhooks/) sends the submission to a [Firebase Cloud Function](https://firebase.google.com/products/functions). The Cloud Function parses the order, finds the best memes for the job, and sends a request to [Lob](https://lob.com/) to print and mail the order, all while keeping the sender up-to-date via emails sent with [Mailgun](https://www.mailgun.com/).
 
@@ -37,7 +37,7 @@ Additional information like the sender's email address or a message to include o
 
 ### Step 2. Use Firebase to Handle a Webhook
 
-After you create your form, the next step is processing submissions. A [Firebase Cloud Function](https://firebase.google.com/products/functions) allows you to handle submissions.
+After you create your form, the next step is processing submissions. This [Firebase Cloud Function](https://firebase.google.com/products/functions) allows you to handle submissions and will serve as the endpoint that Typeform will send a POST request on form submission.
 
 ```Typescript
 import * as express from 'express';
@@ -87,7 +87,7 @@ Two important things happen here: you store the postcard in a collection of all 
 
 ### Step 3. Send the Postcard With Lob
 
-Firebase allows you to trigger functions when a Firestore Collection is written to. When a new postcard is saved to a Firestore Collection, you can trigger [Lob](https://lob.com/) to print a postcard.
+Firebase allows you to [trigger functions when a Firestore Collection is written to](https://firebase.google.com/docs/functions/firestore-events). When a new postcard is saved to a Firestore Collection, you can trigger [Lob](https://lob.com/) to print a postcard.
 
 ```Typescript
 import * as admin from 'firebase-admin';
@@ -216,6 +216,8 @@ npm run start
 ```
 
 Or you can try a deployed version of the demo app [right here](https://lob.typeformdev.com).
+
+While memes can be fun, other practical use cases that may exist is if you wanted to automate thank you cards being sent out to customers who purchase your product. Or perhaps a platform to [contact ones local congress person via mail](https://resist.bot/).
 
 ---
 
